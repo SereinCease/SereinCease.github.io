@@ -240,8 +240,8 @@ window.addEventListener('load',preloader.endLoading())</script><div class="js-pj
   function initValine () {
     const valine = new Valine(Object.assign({
       el: '#vcomment',
-      appId: '',
-      appKey: '',
+      appId: 'RlR02BxnYo8QxcyrPjefgphN-MdYXbMMI',
+      appKey: 'NdMypGqdpCzEczTTCRdtz7LA',
       placeholder: 'Please leave your footprints',
       avatar: 'monsterid',
       meta: 'nick,mail'.split(','),
@@ -259,7 +259,7 @@ window.addEventListener('load',preloader.endLoading())</script><div class="js-pj
   }
 
   if (typeof Valine === 'function') initValine() 
-  else getScript('https://cdn.jsdelivr.net/gh/HCLonely/Valine@latest/dist/Valine.min.js').then(initValine)
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
 }
 
 if ('Valine' === 'Valine' || !false) {
