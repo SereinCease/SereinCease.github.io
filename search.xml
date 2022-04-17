@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>c语言</title>
+      <link href="/2022/04/17/c%E8%AF%AD%E8%A8%80/"/>
+      <url>/2022/04/17/c%E8%AF%AD%E8%A8%80/</url>
+      
+        <content type="html"><![CDATA[<h6 id="1-左操作数必须是左值（左操作数为变量，左值是可修改的值）"><a href="#1-左操作数必须是左值（左操作数为变量，左值是可修改的值）" class="headerlink" title="1.左操作数必须是左值（左操作数为变量，左值是可修改的值）"></a>1.左操作数必须是左值（左操作数为变量，左值是可修改的值）</h6><h6 id="2-scanf编译报错"><a href="#2-scanf编译报错" class="headerlink" title="2.scanf编译报错"></a>2.scanf编译报错</h6><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">严重性代码说明项目文件行禁止显示状态</span><br><span class="line">错误C4996<span class="string">&#x27;scanf&#x27;</span>: This function <span class="keyword">or</span> variable may be unsafe. Consider <span class="keyword">using</span> scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help <span class="keyword">for</span> details.helloWorldD:\WorkSpace\cProgram\helloWorld\helloWorld\main.c<span class="number">10</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>第一行写<code>#define _CRT_SECURE_NO_WARNINGS</code></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Android</title>
       <link href="/2022/03/16/Android/"/>
       <url>/2022/03/16/Android/</url>
