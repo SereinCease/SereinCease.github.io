@@ -822,6 +822,13 @@ document.addEventListener('DOMContentLoaded', function () {
     })
   }
 
+  const swapFooterInfo = () => {
+    // 设置页脚博主会动的心
+    document.querySelector(
+      ".copyright"
+    ).innerHTML = `©2020 - ${new Date().getFullYear()} <i style="color:#FF6A6A;animation: announ_animation 0.8s linear infinite;" class="fa fa-heartbeat"></i> SereinCease`;
+  };
+
   const unRefreshFn = function () {
     window.addEventListener('resize', () => {
       adjustMenu(false)
@@ -871,6 +878,8 @@ document.addEventListener('DOMContentLoaded', function () {
     tabsFn()
     switchComments()
     openMobileMenu()
+
+    swapFooterInfo()
   }
 
   refreshFn()

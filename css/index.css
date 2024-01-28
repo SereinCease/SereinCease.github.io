@@ -3296,7 +3296,7 @@ h1.page-title + .tag-cloud-list {
 }
 #footer {
   position: relative;
-  background-color: #e58a8a;
+  background-color: transparent;
   background-attachment: scroll;
   background-position: bottom;
   background-size: cover;
@@ -6151,4 +6151,75 @@ blockquote.pullquote.right {
   z-index: 1000;
   display: none;
   background: rgba(0,0,0,0.6);
+}
+@font-face {
+    font-family: 'sleek';
+    src: url('https://cdn.jsdelivr.net/gh/lete114/CDN2/zaxiang/sleek.woff2');
+}
+
+#page-header #site_title {
+    color: #80bdab;
+}
+
+#footer-wrap a {
+    color: #00c4b6;
+}
+
+.footer_custom_text {
+    color: #00c4b6;
+}
+
+/*a标签颜色*/
+
+a {
+    color: #00c4b6;
+}
+
+/*头部文字颜色*/
+
+#nav a {
+    color: #f9f2f4;
+}
+
+/*文章透明*/
+
+.layout_post>#post {
+    background: rgba(255, 255, 255, .9) !important;
+}
+
+/*移动端优化：去除归档、标签、最新文章、公告、、只保留网站统计*/
+
+@media screen and (max-width: 800px) {
+    #aside_content div:not(:last-child) {
+        display: none !important;
+        font-size: 13px !important;
+    }
+}
+
+/* 页脚透明
+
+#footer {
+    background: transparent !important;
+} */
+
+/* 滚动条 */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #e58a8a !important;
+    background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.4) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.4) 75%, transparent 75%, transparent) !important;
+    border-radius: 2em;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: transparent !important;
+}
+
+::-moz-selection {
+    color: #fff !important;
+    background-color: #e58a8a !important;
 }
