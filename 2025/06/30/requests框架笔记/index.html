@@ -1,0 +1,405 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>requests框架笔记 | Sereincease's Blog</title><meta name="author" content="Sereincease"><meta name="copyright" content="Sereincease"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="四、接口自动化测试框架之requests详解（day16）1. 市面上主流的接口自动化测试方案 基于工具的接口测试    Postman: JavaScript   JMeter: Java   基于代码的接口测试    Python + pytest + requests （+ YAML + logging + allure + git + jenkins）   基于平台的接口测试    前端:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="requests框架笔记">
+<meta property="og:url" content="https://sereincease.github.io/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Sereincease&#39;s Blog">
+<meta property="og:description" content="四、接口自动化测试框架之requests详解（day16）1. 市面上主流的接口自动化测试方案 基于工具的接口测试    Postman: JavaScript   JMeter: Java   基于代码的接口测试    Python + pytest + requests （+ YAML + logging + allure + git + jenkins）   基于平台的接口测试    前端:">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg">
+<meta property="article:published_time" content="2025-06-30T04:45:23.000Z">
+<meta property="article:modified_time" content="2025-06-30T10:15:33.261Z">
+<meta property="article:author" content="Sereincease">
+<meta property="article:tag" content="接口自动化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sereincease.github.io/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'requests框架笔记',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-30 18:15:33'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><div class="aplayer" data-id="5456500330" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="auto"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-27/202201191302974%20-1--c8fc4e.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 找文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-users"></i><span> 友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/serein/"><i class="fa-fw fa fa-user"></i><span> SereinCease个人主页</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Sereincease's Blog"><span class="site-name">Sereincease's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 找文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-users"></i><span> 友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/serein/"><i class="fa-fw fa fa-user"></i><span> SereinCease个人主页</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">requests框架笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-30T04:45:23.000Z" title="发表于 2025-06-30 12:45:23">2025-06-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-30T10:15:33.261Z" title="更新于 2025-06-30 18:15:33">2025-06-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/">软件测试</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="requests框架笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="四、接口自动化测试框架之requests详解（day16）"><a href="#四、接口自动化测试框架之requests详解（day16）" class="headerlink" title="四、接口自动化测试框架之requests详解（day16）"></a>四、接口自动化测试框架之requests详解（day16）</h1><h2 id="1-市面上主流的接口自动化测试方案"><a href="#1-市面上主流的接口自动化测试方案" class="headerlink" title="1. 市面上主流的接口自动化测试方案"></a>1. 市面上主流的接口自动化测试方案</h2><ol>
+<li><p><strong>基于工具的接口测试</strong>  </p>
+<ul>
+<li>Postman: JavaScript  </li>
+<li>JMeter: Java</li>
+</ul>
+</li>
+<li><p><strong>基于代码的接口测试</strong>  </p>
+<ul>
+<li>Python + pytest + requests （+ YAML + logging + allure + git + jenkins）</li>
+</ul>
+</li>
+<li><p><strong>基于平台的接口测试</strong>  </p>
+<ul>
+<li>前端: Vue  </li>
+<li>后端:  <ul>
+<li>Python: Django  </li>
+<li>Java: SpringBoot</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="2-HTTP接口协议"><a href="#2-HTTP接口协议" class="headerlink" title="2. HTTP接口协议"></a>2. HTTP接口协议</h2><h3 id="1-什么是接口"><a href="#1-什么是接口" class="headerlink" title="1. 什么是接口"></a>1. 什么是接口</h3><p><strong>API（Application Programming Interface）</strong>：  </p>
+<ul>
+<li>一个程序和另一个程序的数据交互方式（序列化和反序列化）。</li>
+</ul>
+<p><strong>API测试</strong>：  </p>
+<ul>
+<li>一个程序对另一个程序的测试。  </li>
+<li>涉及数据的序列化与传输。</li>
+</ul>
+<p><strong>Restful接口</strong>：  </p>
+<ul>
+<li>Postman将数据按JSON序列化，通过HTTP协议传输到Nginx的80端口。</li>
+</ul>
+<p><strong>RPC接口</strong>：  </p>
+<ul>
+<li>RPC Client将数据按二进制序列化，通过TCP协议传输到RPC Server的8123端口。</li>
+</ul>
+<p><strong>Windows接口</strong>：  </p>
+<ul>
+<li>Win32程序将数据二进制序列化，通过Windows事件总线传输到Windows进程。</li>
+</ul>
+<hr>
+<h3 id="2-HTTP协议"><a href="#2-HTTP协议" class="headerlink" title="2. HTTP协议"></a>2. HTTP协议</h3><ol>
+<li>发送请求：客户端 -&gt; 服务器</li>
+<li>回复响应： 服务器 -&gt; 客户端</li>
+</ol>
+<p><strong>请求和响应的组成</strong>：  </p>
+<ul>
+<li><strong>行</strong>：数据第一行。  </li>
+<li><strong>头</strong>：正文之前的内容。  </li>
+<li><strong>正文（体，Body）</strong>：主要数据内容。</li>
+</ul>
+<h4 id="1-请求"><a href="#1-请求" class="headerlink" title="1. 请求"></a>1. 请求</h4><p><strong>行</strong>： 请求方法 路径（协议、主机、路径）版本号</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET https://www.baidu.com/ HTTP/1.1</span><br></pre></td></tr></table></figure>
+
+<p><strong>常见请求方法</strong>：  </p>
+<ul>
+<li><code>GET</code>：获取资源。  </li>
+<li><code>POST</code>：创建资源。  </li>
+<li><code>DELETE</code>：删除资源。  </li>
+<li><code>PUT</code>：修改资源。  </li>
+<li><code>OPTIONS</code>：查询接口信息。</li>
+</ul>
+<p><strong>头</strong>：  </p>
+<ul>
+<li>键值对形式，数量、长度、名字不限，必须是ASCII。<br>示例：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">beifan: www.baidu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,</span><br><span class="line">like Gecko) Chrome/124.0.0.0 Safari/537.36</span><br><span class="line">Accept:</span><br><span class="line">text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image</span><br><span class="line">/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Sec-Fetch-Site: none</span><br><span class="line">Sec-Fetch-Mode: navigate</span><br><span class="line">Sec-Fetch-User: ?1</span><br><span class="line">Sec-Fetch-Dest: document</span><br><span class="line">sec-ch-ua: &quot;Chromium&quot;;v=&quot;124&quot;, &quot;Google Chrome&quot;;v=&quot;124&quot;, &quot;Not-A.Brand&quot;;v=&quot;99&quot;</span><br><span class="line">sec-ch-ua-mobile: ?0</span><br><span class="line">sec-ch-ua-platform: &quot;Windows&quot;</span><br><span class="line">Accept-Encoding: gzip, deflate, br, zstd</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9</span><br><span class="line">Cookie: BAIDUID_BFESS=3E8FB44D82CFDB0B6F04524F2264D9D6:FG=1; BIDUPSID</span><br></pre></td></tr></table></figure>
+
+<p>头与正文间有两个空行</p>
+<p><strong>正文</strong>：  </p>
+<ul>
+<li>可以是空、表单（键值对）、JSON字符串或二进制数据（图片、视频等）。</li>
+</ul>
+<h4 id="2-响应"><a href="#2-响应" class="headerlink" title="2. 响应"></a>2. 响应</h4><p><strong>行</strong>：  版本号 状态码 状态描述</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br></pre></td></tr></table></figure>
+
+<p><strong>常见状态码</strong>：  </p>
+<ul>
+<li><code>1xx</code>：继续请求。  </li>
+<li><code>2xx</code>：请求成功。  </li>
+<li><code>3xx</code>：重定向（无正文）。  </li>
+<li><code>4xx</code>：客户端错误（请求问题）。  </li>
+<li><code>5xx</code>：服务器端错误（接口问题）。</li>
+</ul>
+<p><strong>头</strong>：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Connection: keep-alive</span><br><span class="line">Content-Security-Policy: frame-ancestors &#x27;self&#x27; https://chat.baidu.com</span><br><span class="line">http://mirror-chat.baidu.com https://fj-chat.baidu.com https://hba-chat.baidu.com</span><br><span class="line">https://hbe-chat.baidu.com https://njjs-chat.baidu.com https://nj-chat.baidu.com</span><br><span class="line">https://hna-chat.baidu.com https://hnb-chat.baidu.com http://debug.baidu-int.com;</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">Date: Sun, 21 Apr 2024 12:26:53 GMT</span><br><span class="line">Server: BWS/1.1</span><br><span class="line">Set-Cookie: H_PS_PSSID=40366_40379_40301_40511_40080_60132; path=/; expires=Mon,</span><br><span class="line">21-Apr-25 12:26:53 GMT; domain=.baidu.com</span><br><span class="line">Traceid: 1713702413079251559415571183161739773267</span><br><span class="line">X-Ua-Compatible: IE=Edge,chrome=1</span><br><span class="line">X-Xss-Protection: 1;mode=block</span><br><span class="line">Content-Length: 406773</span><br></pre></td></tr></table></figure>
+
+<p><strong>正文</strong>：  </p>
+<ul>
+<li>可以是空、文本（HTML、TXT）、JSON字符串或二进制数据。</li>
+</ul>
+<!DOCTYPE html><!--STATUS OK--><html><head><meta http-equiv="Content-Type"
+<p>content&#x3D;”text&#x2F;html;charset&#x3D;utf-8”&gt;<meta http-equiv="X-UA-Compatible"
+content="IE=edge,chrome=1"><meta content="always" name="referrer"><meta
+name="theme-color" content="#ffffff"><meta name="description" content="全球领先的中
+文搜索引擎、致力于让网民更便捷地获取信息，找到所求。百度超过千亿的中文网页数据库，可以瞬间找到相关
+的搜索结果。"><link rel="shortcut icon" href="https://www.baidu.com/favicon.ico"
+type="image/x-icon" /><link rel="search"
+type="application/opensearchdescription+xml" href="/content-search.xml" title="百
+度搜索" /><link rel="icon" sizes="any" mask
+href="https://www.baidu.com/favicon.ico"><link rel="dns-prefetch"
+href="//dss0.bdstatic.com"/><link rel="dns-prefetch" href="//dss1.bdstatic.com"/></p>
+<link rel="dns-prefetch" href="//ss1.bdstatic.com"/><link rel="dns-prefetch"
+href="//sp0.baidu.com"/><link rel="dns-prefetch" href="//sp1.baidu.com"/><link
+rel="dns-prefetch" href="//sp2.baidu.com"/><link rel="dns-prefetch"
+href="//pss.bdstatic.com"/>  
+
+<hr>
+<h2 id="3-requests用法"><a href="#3-requests用法" class="headerlink" title="3. requests用法"></a>3. requests用法</h2><h3 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install requests</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip show requests</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-发送HTTP请求"><a href="#2-发送HTTP请求" class="headerlink" title="2. 发送HTTP请求"></a>2. 发送HTTP请求</h3><p><strong>多种使用方式</strong>：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">requests.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line">requests.request(<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line"></span><br><span class="line">sess = requests.session()</span><br><span class="line">sess.get(<span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br><span class="line">sess.request(<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;http://www.baidu.com/&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>统一内部原理</strong>：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sess = requests.session()  <span class="comment"># 实例化类</span></span><br><span class="line">sess.request(<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;http://www.baidu.com/&#x27;</span>)  <span class="comment"># 调用实例方法</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>参数说明</strong>：  </p>
+<ul>
+<li><strong>行</strong>：  <ul>
+<li><code>method</code>：请求方法（如<code>GET</code>）。  </li>
+<li><code>url</code>：接口地址。  </li>
+<li><code>params=None</code>：查询字符串。</li>
+</ul>
+</li>
+<li><strong>头</strong>：  <ul>
+<li><code>headers=None</code>：请求头。  </li>
+<li><code>cookies=None</code>：Cookies。</li>
+</ul>
+</li>
+<li><strong>正文</strong>：  <ul>
+<li><code>data=None</code>：表单参数。  </li>
+<li><code>files=None</code>：文件（二进制）。  </li>
+<li><code>json=None</code>：JSON参数。</li>
+</ul>
+</li>
+<li><strong>其他</strong>：    <ul>
+<li><code>timeout=None</code>, # 超时时间</li>
+<li><code>allow_redirects=True</code>, # 跟随重定向</li>
+<li><code>proxies=None</code>, # 代理设置</li>
+<li><code>hooks=None</code>, # 内部钩子</li>
+<li><code>stream=None</code>, # 流式传输</li>
+<li><code>verify=None</code>, # 验证HTTPS证书</li>
+<li><code>cert=None</code>, # 自定义HTTPS证书</li>
+</ul>
+</li>
+</ul>
+<p><strong>示例</strong>：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">resp = requests.request(</span><br><span class="line">    <span class="comment"># 行</span></span><br><span class="line">    method=<span class="string">&#x27;get&#x27;</span>,</span><br><span class="line">    url=<span class="string">&quot;https://www.baidu.com/upload&quot;</span>,</span><br><span class="line">    params=&#123;<span class="string">&quot;dir&quot;</span>: <span class="string">&quot;user_home&quot;</span>&#125;,</span><br><span class="line">    <span class="comment">#### 头</span></span><br><span class="line">    headers=&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;beifan&quot;</span>&#125;,</span><br><span class="line">    <span class="comment">#### 正文</span></span><br><span class="line">    data=&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;北凡&quot;</span>&#125;,  <span class="comment"># 表单数据</span></span><br><span class="line">    json=&#123;<span class="string">&quot;age&quot;</span>: [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>]&#125;,</span><br><span class="line">    files=&#123;<span class="string">&quot;file&quot;</span>: <span class="built_in">open</span>(<span class="string">&quot;conftest.py&quot;</span>, <span class="string">&quot;rb&quot;</span>)&#125;  <span class="comment"># 二进制模式打开文件</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong>：<code>data</code>和<code>json</code>不能共存。  </p>
+<h3 id="3-解析响应"><a href="#3-解析响应" class="headerlink" title="3. 解析响应"></a>3. 解析响应</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">resp = requests.request(<span class="string">&#x27;get&#x27;</span>, <span class="string">&#x27;https://api.weixin.qq.com/cgi-bin/token&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 行</span></span><br><span class="line"><span class="built_in">print</span>(resp.status_code, resp.reason)<span class="comment">#状态码和状态描述</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 头</span></span><br><span class="line"><span class="built_in">print</span>(resp.headers)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正文</span></span><br><span class="line"><span class="built_in">print</span>(resp.text)      <span class="comment"># 文本内容（人类可读）</span></span><br><span class="line"><span class="built_in">print</span>(resp.content)   <span class="comment"># 二进制内容（适合下载）</span></span><br><span class="line"><span class="built_in">print</span>(resp.json())    <span class="comment"># 将JSON文本反序列化为字典</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="4-接口自动化实战"><a href="#4-接口自动化实战" class="headerlink" title="4. 接口自动化实战"></a>4. 接口自动化实战</h2><h3 id="1-接口文档"><a href="#1-接口文档" class="headerlink" title="1. 接口文档"></a>1. 接口文档</h3><ul>
+<li>地址：<code>http://47.107.116.139/showdoc/web/?#/1</code>  </li>
+<li>需要密码（找班主任索取）。</li>
+</ul>
+<h3 id="2-基本流程"><a href="#2-基本流程" class="headerlink" title="2. 基本流程"></a>2. 基本流程</h3><ol>
+<li><strong>看懂文档</strong>：  <ul>
+<li>接口数量、项目风格、接口具体信息（请求四要素：方法、地址、参数、鉴权或依赖）（响应：状态码、正文、错误码、错误提示）。  </li>
+<li>业务需求：何时、为何请求接口。</li>
+</ul>
+</li>
+<li><strong>设计用例</strong>：  <ul>
+<li>前置条件、用例参数、预期结果。</li>
+</ul>
+</li>
+<li><strong>编写与执行用例</strong>：  <ul>
+<li>使用Python + pytest + requests。</li>
+</ul>
+</li>
+<li><strong>输出报告</strong>：  <ul>
+<li>日志与测试报告。</li>
+</ul>
+</li>
+</ol>
+<h3 id="3-微信公众号项目"><a href="#3-微信公众号项目" class="headerlink" title="3. 微信公众号项目"></a>3. 微信公众号项目</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://sereincease.github.io">Sereincease</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://sereincease.github.io/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/">https://sereincease.github.io/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sereincease.github.io" target="_blank">Sereincease's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96/">接口自动化</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础"><img class="cover" src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">web自动化基础</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest"><img class="cover" src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">接口自动化基础之pytest</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-27/202201191302974%20-1--c8fc4e.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sereincease</div><div class="author-info__description">Sereincease的个人博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com//SereinCease"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to SereinCease's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E4%B9%8Brequests%E8%AF%A6%E8%A7%A3%EF%BC%88day16%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">四、接口自动化测试框架之requests详解（day16）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B8%82%E9%9D%A2%E4%B8%8A%E4%B8%BB%E6%B5%81%E7%9A%84%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E6%96%B9%E6%A1%88"><span class="toc-number">1.1.</span> <span class="toc-text">1. 市面上主流的接口自动化测试方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-HTTP%E6%8E%A5%E5%8F%A3%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.</span> <span class="toc-text">2. HTTP接口协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 什么是接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-HTTP%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. HTTP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%AF%B7%E6%B1%82"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">1. 请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%93%8D%E5%BA%94"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">2. 响应</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-requests%E7%94%A8%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">3. requests用法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%91%E9%80%81HTTP%E8%AF%B7%E6%B1%82"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 发送HTTP请求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%A7%A3%E6%9E%90%E5%93%8D%E5%BA%94"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 解析响应</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%9E%E6%88%98"><span class="toc-number">1.4.</span> <span class="toc-text">4. 接口自动化实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 接口文档</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. 基本流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.4.3.</span> <span class="toc-text">3. 微信公众号项目</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web自动化基础"/></a><div class="content"><a class="title" href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础">web自动化基础</a><time datetime="2025-06-30T10:15:30.000Z" title="发表于 2025-06-30 18:15:30">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="requests框架笔记"/></a><div class="content"><a class="title" href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记">requests框架笔记</a><time datetime="2025-06-30T04:45:23.000Z" title="发表于 2025-06-30 12:45:23">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="接口自动化基础之pytest"/></a><div class="content"><a class="title" href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest">接口自动化基础之pytest</a><time datetime="2025-06-29T03:47:00.000Z" title="发表于 2025-06-29 11:47:00">2025-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="接口测试工具笔记"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="接口测试工具笔记"/></a><div class="content"><a class="title" href="/2025/06/11/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="接口测试工具笔记">接口测试工具笔记</a><time datetime="2025-06-11T06:01:57.000Z" title="发表于 2025-06-11 14:01:57">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/webTest/" title="webTest"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webTest"/></a><div class="content"><a class="title" href="/2025/05/16/webTest/" title="webTest">webTest</a><time datetime="2025-05-16T03:10:59.000Z" title="发表于 2025-05-16 11:10:59">2025-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Sereincease</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">love学习</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'SereinCease/SereinCease.github.io',
+      'data-repo-id': 'R_kgDOGg9uaw',
+      'data-category-id': 'DIC_kwDOGg9ua84Ccvjf',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/gh/SereinCease/SereinCease.github.io@main/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>web自动化基础 | Sereincease's Blog</title><meta name="author" content="Sereincease"><meta name="copyright" content="Sereincease"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一、Web自动化前端基础及Selenium原理和环境安装1. API自动化和Web自动化区别 API自动化：    关注数据的流动   对数据进行设计、传输、验证   Web自动化：    围绕浏览器页面   功能包括：   启动、关闭网页窗口   获取、改变窗口大小   获取、改变网址   点击、输入、保存       2. 浏览器和前端基础1. 元素网页内容由HTML元素决定，HTML是标记语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web自动化基础">
+<meta property="og:url" content="https://sereincease.github.io/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Sereincease&#39;s Blog">
+<meta property="og:description" content="一、Web自动化前端基础及Selenium原理和环境安装1. API自动化和Web自动化区别 API自动化：    关注数据的流动   对数据进行设计、传输、验证   Web自动化：    围绕浏览器页面   功能包括：   启动、关闭网页窗口   获取、改变窗口大小   获取、改变网址   点击、输入、保存       2. 浏览器和前端基础1. 元素网页内容由HTML元素决定，HTML是标记语">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg">
+<meta property="article:published_time" content="2025-06-30T10:15:30.000Z">
+<meta property="article:modified_time" content="2025-06-30T10:39:29.774Z">
+<meta property="article:author" content="Sereincease">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sereincease.github.io/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'web自动化基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-06-30 18:39:29'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><div class="aplayer" data-id="5456500330" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="auto"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-27/202201191302974%20-1--c8fc4e.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 找文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-users"></i><span> 友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/serein/"><i class="fa-fw fa fa-user"></i><span> SereinCease个人主页</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Sereincease's Blog"><span class="site-name">Sereincease's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 找文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-users"></i><span> 友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/serein/"><i class="fa-fw fa fa-user"></i><span> SereinCease个人主页</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">web自动化基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-30T10:15:30.000Z" title="发表于 2025-06-30 18:15:30">2025-06-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-30T10:39:29.774Z" title="更新于 2025-06-30 18:39:29">2025-06-30</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="web自动化基础"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="一、Web自动化前端基础及Selenium原理和环境安装"><a href="#一、Web自动化前端基础及Selenium原理和环境安装" class="headerlink" title="一、Web自动化前端基础及Selenium原理和环境安装"></a>一、Web自动化前端基础及Selenium原理和环境安装</h1><h2 id="1-API自动化和Web自动化区别"><a href="#1-API自动化和Web自动化区别" class="headerlink" title="1. API自动化和Web自动化区别"></a>1. API自动化和Web自动化区别</h2><ul>
+<li><p><strong>API自动化</strong>：  </p>
+<ul>
+<li>关注数据的流动  </li>
+<li>对数据进行设计、传输、验证</li>
+</ul>
+</li>
+<li><p><strong>Web自动化</strong>：  </p>
+<ul>
+<li>围绕浏览器页面  </li>
+<li>功能包括：  <ul>
+<li>启动、关闭网页窗口  </li>
+<li>获取、改变窗口大小  </li>
+<li>获取、改变网址  </li>
+<li>点击、输入、保存</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-浏览器和前端基础"><a href="#2-浏览器和前端基础" class="headerlink" title="2. 浏览器和前端基础"></a>2. 浏览器和前端基础</h2><h3 id="1-元素"><a href="#1-元素" class="headerlink" title="1. 元素"></a>1. 元素</h3><p>网页内容由HTML元素决定，HTML是标记语言，通过标签和标签的属性标记内容。  </p>
+<p><strong>示例HTML代码：</strong>  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>网页标题<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    输入框：<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">    文本框：<span class="tag">&lt;<span class="name">textarea</span> <span class="attr">rows</span>=<span class="string">&quot;20&quot;</span> <span class="attr">cols</span>=<span class="string">&quot;40&quot;</span>&gt;</span>默认值<span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">    按钮A: <span class="tag">&lt;<span class="name">button</span>&gt;</span>登录<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">    按钮B: <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">value</span>=<span class="string">&quot;注册&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ol</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>张三<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>李四<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>王五<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ol</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">select</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">option</span>&gt;</span>上海<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">option</span>&gt;</span>深圳<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">option</span>&gt;</span>广州<span class="tag">&lt;/<span class="name">option</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>特点：</strong>  </p>
+<ol>
+<li>标签能被浏览器识别并展示特定效果。  </li>
+<li>标签属性与标记同等重要。  </li>
+<li>标签可嵌套、配合，实现不同效果。  </li>
+<li>展示效果可动态更改，不可迷信静态效果。</li>
+</ol>
+<h3 id="2-JavaScript"><a href="#2-JavaScript" class="headerlink" title="2. JavaScript"></a>2. JavaScript</h3><p>决定网页的动态效果，语法与Python相似。  </p>
+<p><strong>示例代码：</strong>  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 条件判断</span></span><br><span class="line"><span class="keyword">if</span> (a == b) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;a和b相等&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;a和b不相等&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数封装</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">func</span>(<span class="params">params</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (a == b) &#123; </span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;a和b相等&#x27;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;a和b不相等&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-DOM（文档对象模型）"><a href="#3-DOM（文档对象模型）" class="headerlink" title="3. DOM（文档对象模型）"></a>3. DOM（文档对象模型）</h3><p>D: 文档<br>O：面向对象<br>M：模型</p>
+<p>将浏览器和网页内容视为对象，通过面向对象方式访问、控制。  </p>
+<p><strong>示例：</strong>  </p>
+<p>window：浏览器窗对象<br>docment：网页内容对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span> = <span class="string">&#x27;https://www.baidu.com&#x27;</span>;  <span class="comment">// 跳转网址</span></span><br><span class="line"><span class="variable language_">document</span>.<span class="property">body</span>.<span class="property">outerHTML</span> = <span class="string">&#x27;&lt;body&gt;你好，你的网页被黑了&lt;/body&gt;&#x27;</span>;  <span class="comment">// 修改网页内容</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-Selenium"><a href="#3-Selenium" class="headerlink" title="3. Selenium"></a>3. Selenium</h2><p>Selenium是一个开源的、跨平台的、支持多语言的Web自动化测试工具。  </p>
+<h3 id="1-安装Selenium"><a href="#1-安装Selenium" class="headerlink" title="1. 安装Selenium"></a>1. 安装Selenium</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install selenium -U  </span><br></pre></td></tr></table></figure>
+
+<p>第三方</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install webdriver-helper==1.*  </span><br></pre></td></tr></table></figure>
+
+<h3 id="2-安装浏览器驱动"><a href="#2-安装浏览器驱动" class="headerlink" title="2. 安装浏览器驱动"></a>2. 安装浏览器驱动</h3><p><strong>方式1：官方自动下载（较慢）</strong>  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver  </span><br><span class="line">driver = webdriver.Chrome()  <span class="comment"># 使用Chrome浏览器驱动  </span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方式2：第三方自动下载</strong>  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> webdriver_helper <span class="keyword">import</span> get_webdriver  </span><br><span class="line">driver = get_webdriver(<span class="string">&#x27;chrome&#x27;</span>)  <span class="comment"># 使用Chrome浏览器驱动  </span></span><br></pre></td></tr></table></figure>
+
+<p><strong>方式3：手动下载</strong>  </p>
+<ol>
+<li>确定平台（如Windows）和浏览器版本（如120.0.6099.225）。  </li>
+<li>从<a target="_blank" rel="noopener" href="https://googlechromelabs.github.io/chrome-for-testing/">Chrome驱动官网</a>下载对应驱动。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line">driver = webdriver.Chrome() <span class="comment"># 使用chrome的浏览器驱动</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-简单示例"><a href="#3-简单示例" class="headerlink" title="3. 简单示例"></a>3. 简单示例</h3><p><strong>手动测试步骤：</strong>  </p>
+<ol>
+<li>启动浏览器  </li>
+<li>访问百度  </li>
+<li>输入关键字  </li>
+<li>点击搜索按钮  </li>
+<li>等待  </li>
+<li>截图</li>
+</ol>
+<p><strong>代码实现：</strong>  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">driver = webdriver.Chrome()  <span class="comment"># 1. 启动浏览器</span></span><br><span class="line">driver.get(<span class="string">&quot;https://www.baidu.com&quot;</span>)  <span class="comment"># 2. 访问百度</span></span><br><span class="line">driver.find_element(<span class="string">&#x27;xpath&#x27;</span>, <span class="string">&#x27;//*[@id=&quot;kw&quot;]&#x27;</span>).send_keys(<span class="string">&quot;北凡老师&quot;</span>)  <span class="comment"># 3. 输入关键字</span></span><br><span class="line">driver.find_element(<span class="string">&#x27;xpath&#x27;</span>, <span class="string">&#x27;//*[@id=&quot;su&quot;]&#x27;</span>).click()  <span class="comment"># 4. 点击搜索按钮</span></span><br><span class="line">time.sleep(<span class="number">5</span>)  <span class="comment"># 5. 等待</span></span><br><span class="line">driver.get_screenshot_as_file(<span class="string">&quot;page.png&quot;</span>)  <span class="comment"># 6. 截图</span></span><br><span class="line">driver.quit()  <span class="comment"># 7. 关闭浏览器</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4-底层原理"><a href="#4-底层原理" class="headerlink" title="4. 底层原理"></a>4. 底层原理</h3><ol>
+<li>启动浏览器驱动。  </li>
+<li>与驱动建立连接，要求驱动启动浏览器。  </li>
+<li>发送HTTP请求（如命令<code>get</code>+参数<code>百度网址</code>）。  </li>
+<li>发送HTTP请求：命令（findElement）+参数（{“using”: xpath, “value”: &#x2F;&#x2F;*[@id&#x3D;”su”]}）</li>
+<li>发送HTTP请求：命令（sendKeysToElement）+参数（…）</li>
+<li>发送HTTP请求：命令（…）+参数（…）</li>
+</ol>
+<p>selenium底层原理：</p>
+<ol>
+<li>启动浏览器驱动</li>
+<li>向浏览器驱动发送HTTP请求</li>
+<li>HTTP请求，使用webdriver协议标准</li>
+</ol>
+<p>可以扩展出：appium</p>
+<p>向收集发送请求，实现APP自动化</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://sereincease.github.io">Sereincease</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://sereincease.github.io/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/">https://sereincease.github.io/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sereincease.github.io" target="_blank">Sereincease's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记"><img class="cover" src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">requests框架笔记</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-27/202201191302974%20-1--c8fc4e.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sereincease</div><div class="author-info__description">Sereincease的个人博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">8</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com//SereinCease"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to SereinCease's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81Web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80%E5%8F%8ASelenium%E5%8E%9F%E7%90%86%E5%92%8C%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="toc-number">1.</span> <span class="toc-text">一、Web自动化前端基础及Selenium原理和环境安装</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-API%E8%87%AA%E5%8A%A8%E5%8C%96%E5%92%8CWeb%E8%87%AA%E5%8A%A8%E5%8C%96%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">1. API自动化和Web自动化区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B5%8F%E8%A7%88%E5%99%A8%E5%92%8C%E5%89%8D%E7%AB%AF%E5%9F%BA%E7%A1%80"><span class="toc-number">1.2.</span> <span class="toc-text">2. 浏览器和前端基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%85%83%E7%B4%A0"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-JavaScript"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. JavaScript</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-DOM%EF%BC%88%E6%96%87%E6%A1%A3%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%EF%BC%89"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. DOM（文档对象模型）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Selenium"><span class="toc-number">1.3.</span> <span class="toc-text">3. Selenium</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%89%E8%A3%85Selenium"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 安装Selenium</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%89%E8%A3%85%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 安装浏览器驱动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%AE%80%E5%8D%95%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 简单示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.4.</span> <span class="toc-text">4. 底层原理</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web自动化基础"/></a><div class="content"><a class="title" href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础">web自动化基础</a><time datetime="2025-06-30T10:15:30.000Z" title="发表于 2025-06-30 18:15:30">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="requests框架笔记"/></a><div class="content"><a class="title" href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记">requests框架笔记</a><time datetime="2025-06-30T04:45:23.000Z" title="发表于 2025-06-30 12:45:23">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="接口自动化基础之pytest"/></a><div class="content"><a class="title" href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest">接口自动化基础之pytest</a><time datetime="2025-06-29T03:47:00.000Z" title="发表于 2025-06-29 11:47:00">2025-06-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/11/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="接口测试工具笔记"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="接口测试工具笔记"/></a><div class="content"><a class="title" href="/2025/06/11/%E6%8E%A5%E5%8F%A3%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" title="接口测试工具笔记">接口测试工具笔记</a><time datetime="2025-06-11T06:01:57.000Z" title="发表于 2025-06-11 14:01:57">2025-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/16/webTest/" title="webTest"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="webTest"/></a><div class="content"><a class="title" href="/2025/05/16/webTest/" title="webTest">webTest</a><time datetime="2025-05-16T03:10:59.000Z" title="发表于 2025-05-16 11:10:59">2025-05-16</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Sereincease</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">love学习</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'SereinCease/SereinCease.github.io',
+      'data-repo-id': 'R_kgDOGg9uaw',
+      'data-category-id': 'DIC_kwDOGg9ua84Ccvjf',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/gh/SereinCease/SereinCease.github.io@main/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
