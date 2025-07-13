@@ -1,0 +1,496 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>web自动化-电商实战 | Sereincease's Blog</title><meta name="author" content="Sereincease"><meta name="copyright" content="Sereincease"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="四、Web自动化实战-电商项目个人中心用例设计和实现（day28）1. 需求分析与用例设计项目地址http:&#x2F;&#x2F;116.62.63.211&#x2F;shop&#x2F;  核心业务：购物 个人中心业务：  业务管理模块  订单管理：数据展示、筛选、交互  售后管理：数据展示、筛选、交互  商品收藏：数据展示、筛选、交互    财产中心模块  我的积分：数据展示、筛选、交互   资料管理模块  个人资料：文件上传、表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web自动化-电商实战">
+<meta property="og:url" content="https://sereincease.github.io/2025/07/05/web%E8%87%AA%E5%8A%A8%E5%8C%96-%E7%94%B5%E5%95%86%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Sereincease&#39;s Blog">
+<meta property="og:description" content="四、Web自动化实战-电商项目个人中心用例设计和实现（day28）1. 需求分析与用例设计项目地址http:&#x2F;&#x2F;116.62.63.211&#x2F;shop&#x2F;  核心业务：购物 个人中心业务：  业务管理模块  订单管理：数据展示、筛选、交互  售后管理：数据展示、筛选、交互  商品收藏：数据展示、筛选、交互    财产中心模块  我的积分：数据展示、筛选、交互   资料管理模块  个人资料：文件上传、表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg">
+<meta property="article:published_time" content="2025-07-05T11:29:57.000Z">
+<meta property="article:modified_time" content="2025-07-11T09:47:37.055Z">
+<meta property="article:author" content="Sereincease">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sereincease.github.io/2025/07/05/web%E8%87%AA%E5%8A%A8%E5%8C%96-%E7%94%B5%E5%95%86%E5%AE%9E%E6%88%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'web自动化-电商实战',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-07-11 17:47:37'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/metingjs/dist/Meting.min.js"></script><div class="aplayer" data-id="5456500330" data-server="netease" data-type="playlist" data-fixed="true" data-listFolded="false" data-order="random" data-preload="auto"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-27/202201191302974%20-1--c8fc4e.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 找文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-users"></i><span> 友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/serein/"><i class="fa-fw fa fa-user"></i><span> SereinCease个人主页</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Sereincease's Blog"><span class="site-name">Sereincease's Blog</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa-fw fa fa-book"></i><span> 找文章</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-link"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-users"></i><span> 友情链接</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-list"></i><span> 菜单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/serein/"><i class="fa-fw fa fa-user"></i><span> SereinCease个人主页</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">web自动化-电商实战</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-07-05T11:29:57.000Z" title="发表于 2025-07-05 19:29:57">2025-07-05</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-07-11T09:47:37.055Z" title="更新于 2025-07-11 17:47:37">2025-07-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/web%E8%87%AA%E5%8A%A8%E5%8C%96/">web自动化</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="web自动化-电商实战"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="四、Web自动化实战-电商项目个人中心用例设计和实现（day28）"><a href="#四、Web自动化实战-电商项目个人中心用例设计和实现（day28）" class="headerlink" title="四、Web自动化实战-电商项目个人中心用例设计和实现（day28）"></a>四、Web自动化实战-电商项目个人中心用例设计和实现（day28）</h1><h2 id="1-需求分析与用例设计"><a href="#1-需求分析与用例设计" class="headerlink" title="1. 需求分析与用例设计"></a>1. 需求分析与用例设计</h2><h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a target="_blank" rel="noopener" href="http://116.62.63.211/shop/">http://116.62.63.211/shop/</a> </p>
+<p>核心业务：购物</p>
+<p>个人中心业务：</p>
+<ul>
+<li><p>业务管理模块</p>
+<ul>
+<li><p>订单管理：数据展示、筛选、交互</p>
+</li>
+<li><p>售后管理：数据展示、筛选、交互</p>
+</li>
+<li><p>商品收藏：数据展示、筛选、交互</p>
+</li>
+</ul>
+</li>
+<li><p>财产中心模块</p>
+<ul>
+<li>我的积分：数据展示、筛选、交互</li>
+</ul>
+</li>
+<li><p>资料管理模块</p>
+<ul>
+<li>个人资料：文件上传、表单</li>
+<li>收货地址：数据展示、管理（增删查改）、表单</li>
+<li>安全设置：修改、表单</li>
+<li>我的消息：数据展示、筛选、交互</li>
+<li>我的足迹：数据展示、筛选、交互</li>
+<li>留言问答：数据展示、筛选、交互</li>
+</ul>
+</li>
+</ul>
+<p>必测的三个功能：</p>
+<ul>
+<li><p>收货地址：数据展示、管理（增删查改）、表单</p>
+</li>
+<li><p>订单管理：数据展示、筛选、交互</p>
+</li>
+<li><p>个人资料：文件上传、表单</p>
+</li>
+</ul>
+<h3 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a><strong>前置条件</strong></h3><ol>
+<li>启动浏览器并登录  </li>
+<li>准备头像图片文件</li>
+</ol>
+<h3 id="用例步骤"><a href="#用例步骤" class="headerlink" title="用例步骤"></a>用例步骤</h3><p>进入个人中：<a target="_blank" rel="noopener" href="http://116.62.63.211/shop/personal/index.html">http://116.62.63.211/shop/personal/index.html</a><br>获取旧头像src属性：&#x2F;html&#x2F;body&#x2F;div[4]&#x2F;div[3]&#x2F;div&#x2F;dl&#x2F;dd[1]&#x2F;img<br>点击修改按钮：&#x2F;html&#x2F;body&#x2F;div[4]&#x2F;div[3]&#x2F;div&#x2F;dl&#x2F;dd[1]&#x2F;span&#x2F;a<br>为input选择图：&#x2F;&#x2F;<em>[@id&#x3D;”user-avatar-popup”]&#x2F;div&#x2F;div[2]&#x2F;form&#x2F;div[2]&#x2F;div&#x2F;input<br>点击上传：&#x2F;&#x2F;</em>[@id&#x3D;”user-avatar-popup”]&#x2F;div&#x2F;div[2]&#x2F;form&#x2F;button<br>获取系统提示：&#x2F;&#x2F;p[@class&#x3D;”prompt-msg”]<br>断言：系统提示 &#x3D;&#x3D; “上传成功”<br>重新进入个人中心：<a target="_blank" rel="noopener" href="http://101.34.221.219:8010/?s=personal/index.html">http://101.34.221.219:8010/?s=personal/index.html</a><br>获取新头像src属性：&#x2F;html&#x2F;body&#x2F;div[4]&#x2F;div[3]&#x2F;div&#x2F;dl&#x2F;dd[1]&#x2F;img<br>断言： 旧头像src属 ！&#x3D; 新头像src属性</p>
+<h3 id="后置操作"><a href="#后置操作" class="headerlink" title="后置操作"></a>后置操作</h3><p>1.关闭浏览器</p>
+<hr>
+<h2 id="2-代码实现"><a href="#2-代码实现" class="headerlink" title="2. 代码实现"></a>2. 代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.common.by <span class="keyword">import</span> By</span><br><span class="line"><span class="keyword">from</span> selenium.webdriver.support.wait <span class="keyword">import</span> WebDriverWait</span><br><span class="line"><span class="keyword">from</span> webdriver_helper <span class="keyword">import</span> get_webdriver</span><br><span class="line"></span><br><span class="line">avatar_img = <span class="string">r&#x27;D:\PythonProgram\webTest\data\birthday.jpg&#x27;</span></span><br><span class="line">username = <span class="string">&#x27;lyreth&#x27;</span></span><br><span class="line">password = <span class="string">&#x27;123456&#x27;</span></span><br><span class="line"><span class="comment">#前置条件-准备头像图片</span></span><br><span class="line"><span class="meta">@pytest.fixture()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">pre_img</span>():</span><br><span class="line">    <span class="keyword">return</span> avatar_img</span><br><span class="line"><span class="comment">#前置条件-启动浏览器并自动登录</span></span><br><span class="line"><span class="meta">@pytest.fixture</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">user_driver</span>():</span><br><span class="line">    driver = get_webdriver(<span class="string">&#x27;chrome&#x27;</span>)</span><br><span class="line">    driver.maximize_window()</span><br><span class="line">    driver.get(<span class="string">&#x27;http://116.62.63.211/shop/user/logininfo.html&#x27;</span>)</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div/div[2]/div[2]/div/div/div[1]/form/div[1]/input&#x27;</span>).send_keys(</span><br><span class="line">        username)</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div/div[2]/div[2]/div/div/div[1]/form/div[2]/div/input&#x27;</span>).send_keys(</span><br><span class="line">        password)</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div/div[2]/div[2]/div/div/div[1]/form/div[3]/button&#x27;</span>).click()</span><br><span class="line">    msg = WebDriverWait(driver, <span class="number">10</span>).until(<span class="keyword">lambda</span> d: d.find_element(By.XPATH, <span class="string">&#x27;//p[@class=&quot;prompt-msg&quot;]&#x27;</span>).text)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;系统提示&#x27;</span>, msg)  <span class="comment"># 打印元素内容</span></span><br><span class="line">    <span class="keyword">assert</span> msg == <span class="string">&#x27;登录成功&#x27;</span></span><br><span class="line">    <span class="keyword">yield</span> driver</span><br><span class="line">    driver.quit()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_new_avatar</span>(<span class="params">user_driver,pre_img</span>):</span><br><span class="line">    user_driver.get(<span class="string">&#x27;http://116.62.63.211/shop/personal/index.html&#x27;</span>)</span><br><span class="line">    user_driver.implicitly_wait(<span class="number">10</span>)</span><br><span class="line">    old_img_src=user_driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div[3]/div/dl/dd[1]/img&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">    user_driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div[3]/div/dl/dd[1]/span/a&#x27;</span>).click()</span><br><span class="line">    user_driver.find_element(By.XPATH, <span class="string">&#x27;//*[@id=&quot;user-avatar-popup&quot;]/div/div[2]/form/div[2]/div/input&#x27;</span>).send_keys(pre_img)</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    user_driver.find_element(By.XPATH, <span class="string">&#x27;//*[@id=&quot;user-avatar-popup&quot;]/div/div[2]/form/button&#x27;</span>).click()</span><br><span class="line"></span><br><span class="line">    msg = WebDriverWait(user_driver, <span class="number">10</span>).until(<span class="keyword">lambda</span> d: d.find_element(By.XPATH, <span class="string">&#x27;//p[@class=&quot;prompt-msg&quot;]&#x27;</span>).text)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">assert</span> msg == <span class="string">&#x27;上传成功&#x27;</span></span><br><span class="line">    user_driver.get(<span class="string">&#x27;http://116.62.63.211/shop/personal/index.html&#x27;</span>)</span><br><span class="line">    time.sleep(<span class="number">3</span>)</span><br><span class="line">    new_img_src=user_driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div[3]/div/dl/dd[1]/img&#x27;</span>).get_attribute(<span class="string">&#x27;src&#x27;</span>)</span><br><span class="line">    <span class="keyword">assert</span> old_img_src != new_img_src</span><br></pre></td></tr></table></figure>
+
+<p>上传按钮不能交互报错：</p>
+<p>使用强制等待（隐式等待只能判断元素是否存在），发现变为可点击</p>
+<p>如何写显式等待代码：</p>
+<p>思路：能不能变成可点击，能不能自动变成可点击，如何判断它是可以点击的</p>
+<p>1.难题：不能点击</p>
+<p>2.难题：不能得到系统提示</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>(<span class="params">d</span>):</span><br><span class="line">    el = user_driver.find_element(By.XPATH, <span class="string">&#x27;//*[@id=&quot;user-avatar-popup&quot;]/div/div[2]/form/button&#x27;</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        el.click()</span><br><span class="line">    <span class="keyword">except</span> Exception:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    msg = WebDriverWait(user_driver, <span class="number">10</span>).until(<span class="keyword">lambda</span> d: d.find_element(By.XPATH, <span class="string">&#x27;//p[@class=&quot;prompt-msg&quot;]&#x27;</span>).text)</span><br><span class="line">    <span class="keyword">return</span> msg</span><br><span class="line"></span><br><span class="line">msg = WebDriverWait(user_driver, <span class="number">10</span>).until(func) <span class="comment"># 函数不加括号</span></span><br></pre></td></tr></table></figure>
+
+<p>等待策略中做选择：</p>
+<ul>
+<li>可维护性，大于技术深度</li>
+</ul>
+<p>遇到错误：</p>
+<ol>
+<li>出错类型</li>
+<li>出错原因</li>
+<li>出错解决办法</li>
+</ol>
+<h1 id="五、Web自动化实战-电商项目复杂表单元素自动化操作（day29）"><a href="#五、Web自动化实战-电商项目复杂表单元素自动化操作（day29）" class="headerlink" title="五、Web自动化实战-电商项目复杂表单元素自动化操作（day29）"></a>五、Web自动化实战-电商项目复杂表单元素自动化操作（day29）</h1><h2 id="1-引入专业测试框架目录结构"><a href="#1-引入专业测试框架目录结构" class="headerlink" title="1. 引入专业测试框架目录结构"></a>1. 引入专业测试框架目录结构</h2><ol>
+<li>安装依赖</li>
+<li>启动框架</li>
+<li>查看日志</li>
+<li>查看报告</li>
+</ol>
+<h2 id="2-收货地址用例设计"><a href="#2-收货地址用例设计" class="headerlink" title="2. 收货地址用例设计"></a>2. 收货地址用例设计</h2><p><strong>收货地址</strong>: 数据展示、管理（增删查改）、表单  </p>
+<p><strong>默认地址规则</strong>:  </p>
+<ul>
+<li>没有默认地址时，最新的地址就是默认  </li>
+<li>有默认地址时，标记默认的地址就是默认  </li>
+<li>只会有1个默认地址</li>
+</ul>
+<h3 id="1-前置操作"><a href="#1-前置操作" class="headerlink" title="1. 前置操作"></a>1. 前置操作</h3><ol>
+<li>启动浏览器  </li>
+<li>登录账号  </li>
+<li>进入【我的地址】：<a target="_blank" rel="noopener" href="http://116.62.63.211/shop/useraddress/index.html">http://116.62.63.211/shop/useraddress/index.html</a></li>
+<li>创建默认地址</li>
+</ol>
+<hr>
+<h3 id="2-用例步骤"><a href="#2-用例步骤" class="headerlink" title="2. 用例步骤"></a>2. 用例步骤</h3><h4 id="创建用例"><a href="#创建用例" class="headerlink" title="创建用例"></a>创建用例</h4><p><strong>有默认地址场景</strong>:  </p>
+<ol>
+<li>创建新地址（参数：非默认）  <ol>
+<li>点击【新增地址】：&#x2F;html&#x2F;body&#x2F;div[4]&#x2F;div[3]&#x2F;div&#x2F;div&#x2F;button  </li>
+<li>输入【别名】：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[1]&#x2F;input  </li>
+<li>输入【姓名】：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[2]&#x2F;input  </li>
+<li>输入【电话】：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[3]&#x2F;input  </li>
+<li>选择【省份】：  <ol>
+<li>点击元素加载选项：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[4]&#x2F;div[1]&#x2F;a&#x2F;span  </li>
+<li>点击选项完成选择：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[4]&#x2F;div[1]&#x2F;div&#x2F;ul&#x2F;li[15]</li>
+</ol>
+</li>
+<li>选择【城市】：  <ol>
+<li>点击元素加载选项：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[4]&#x2F;div[2]&#x2F;a&#x2F;span  </li>
+<li>点击选项完成选择：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[4]&#x2F;div[2]&#x2F;div&#x2F;ul&#x2F;li[2]</li>
+</ol>
+</li>
+<li>选择【区县】：  <ol>
+<li>点击元素加载选项：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[4]&#x2F;div[3]&#x2F;a&#x2F;span  </li>
+<li>点击选项完成选择：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[4]&#x2F;div[3]&#x2F;div&#x2F;ul&#x2F;li[4]</li>
+</ol>
+</li>
+<li>输入【详细地址】：&#x2F;&#x2F;*[@id&#x3D;”form-address”]  </li>
+<li>切换【默认】：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[6]&#x2F;div  </li>
+<li>点击【保存】：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[7]&#x2F;button</li>
+</ol>
+</li>
+<li>断言：  <ol>
+<li>系统提示：&#x2F;html&#x2F;body&#x2F;div[4]&#x2F;div&#x2F;p &#x3D;&#x3D; “操作成功”  </li>
+<li>默认地址的别名 !&#x3D; 本次输入的别名</li>
+</ol>
+</li>
+</ol>
+<p><strong>没有默认地址场景</strong>:  </p>
+<ol>
+<li>创建新地址（参数：非默认）同上  </li>
+<li>断言：  <ol>
+<li>系统提示：&#x2F;html&#x2F;body&#x2F;div[4]&#x2F;div&#x2F;p &#x3D;&#x3D; “操作成功”  </li>
+<li>默认地址的别名 &#x3D;&#x3D; 本次输入的别名</li>
+</ol>
+</li>
+</ol>
+<h4 id="删除用例"><a href="#删除用例" class="headerlink" title="删除用例"></a>删除用例</h4><p><strong>有默认地址场景</strong>:  </p>
+<ol>
+<li>删除地址  <ol>
+<li>点击【删除】：&#x2F;&#x2F;*[@id&#x3D;”data-list-5605”]&#x2F;div[2]&#x2F;a[3]  </li>
+<li>点击【确定】：&#x2F;&#x2F;*[@id&#x3D;”am-modal-ubh1v”]&#x2F;div&#x2F;div[3]&#x2F;span[2]</li>
+</ol>
+</li>
+<li>断言：  <ol>
+<li>系统提示 &#x3D; “删除成功”  </li>
+<li>新默认地址别名 &#x3D; 旧默认地址别名</li>
+</ol>
+</li>
+</ol>
+<p><strong>没有默认地址场景</strong>:  </p>
+<ol>
+<li>创建新地址（参数：非默认）同上  </li>
+<li>断言：  <ol>
+<li>系统提示 &#x3D; “删除成功”  </li>
+<li>新默认地址别名 !&#x3D; 旧默认地址别名</li>
+</ol>
+</li>
+</ol>
+<h4 id="编辑用例"><a href="#编辑用例" class="headerlink" title="编辑用例"></a>编辑用例</h4><p><strong>有默认地址场景</strong>:  </p>
+<ol>
+<li>编辑地址并设为默认  <ol>
+<li>点击【编辑】：&#x2F;&#x2F;*[@id&#x3D;”data-list-5610”]&#x2F;div[2]&#x2F;a[1]  </li>
+<li>点击【默认地址】：&#x2F;html&#x2F;body&#x2F;div[1]&#x2F;form&#x2F;div[6]&#x2F;div</li>
+</ol>
+</li>
+<li>断言：  <ol>
+<li>系统提示 &#x3D; “操作成功”  </li>
+<li>新默认地址别名 !&#x3D; 旧默认地址别名</li>
+</ol>
+</li>
+</ol>
+<p><strong>没有默认地址场景</strong>:  </p>
+<ol>
+<li>自动指定最新地址（默认地址只有一个）</li>
+</ol>
+<hr>
+<h3 id="3-后置操作"><a href="#3-后置操作" class="headerlink" title="3. 后置操作"></a>3. 后置操作</h3><ol>
+<li>删除默认地址  </li>
+<li>删除测试新增地址  </li>
+<li>关闭浏览器</li>
+</ol>
+<hr>
+<h3 id="4-整理前后置关系"><a href="#4-整理前后置关系" class="headerlink" title="4. 整理前后置关系"></a>4. 整理前后置关系</h3><ul>
+<li><strong>前置</strong>：启动浏览器、登录  <ul>
+<li><strong>场景A：有默认地址</strong>  <ul>
+<li>前置：进入我的地址，创建1默认地址+1个非默认地址  </li>
+<li>用例1：创建  </li>
+<li>用例2：编辑  </li>
+<li>用例3：删除  </li>
+<li>后置：删除全部地址</li>
+</ul>
+</li>
+<li><strong>场景B：没有默认地址</strong>  <ul>
+<li>前置：进入我的地址，创建2个非默认地址  </li>
+<li>用例1：创建  </li>
+<li>用例2：编辑  </li>
+<li>用例3：删除  </li>
+<li>后置：删除全部地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>后置</strong>：关闭浏览器</li>
+</ul>
+<hr>
+<h2 id="3-收货地址用例实现"><a href="#3-收货地址用例实现" class="headerlink" title="3. 收货地址用例实现"></a>3. 收货地址用例实现</h2><h3 id="1-实现fixture（前置、后置）"><a href="#1-实现fixture（前置、后置）" class="headerlink" title="1. 实现fixture（前置、后置）"></a>1. 实现fixture（前置、后置）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">new_address</span>(<span class="params">driver, alias, name, tel, province, city, county, address, default=<span class="literal">False</span></span>):</span><br><span class="line">    <span class="comment"># 点击新增地址按钮</span></span><br><span class="line">    driver.get(<span class="string">&#x27;http://116.62.63.211/shop/useraddress/index.html&#x27;</span>)</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[4]/div[3]/div/div/button&#x27;</span>).click()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 切换到iframe</span></span><br><span class="line">    iframe = driver.find_element(By.XPATH, <span class="string">&#x27;//iframe[@src=&quot;http://116.62.63.211/shop/useraddress/saveinfo.html&quot;]&#x27;</span>)</span><br><span class="line">    driver.switch_to.frame(iframe)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 填写表单</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[1]/input&#x27;</span>).send_keys(alias)</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[2]/input&#x27;</span>).send_keys(name)</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[3]/input&#x27;</span>).send_keys(tel)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 选择省份</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[4]/div[1]/a/span&#x27;</span>).click()</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[4]/div[1]/div/u1/i[15]&#x27;</span>).click()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 选择城市</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[4]/div[2]/a/span&#x27;</span>).click()</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[4]/div[2]/div/u1/i[2]&#x27;</span>).click()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 选择区县</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[4]/div[3]/a/span&#x27;</span>).click()</span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[4]/div[3]/div/u1/i[4]&#x27;</span>).click()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 输入详细地址</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;//*[@id=&quot;form-address&quot;]&#x27;</span>).send_keys(address)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 设置默认地址</span></span><br><span class="line">    <span class="keyword">if</span> default == <span class="literal">True</span>:</span><br><span class="line">        driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[6]/div&#x27;</span>).click()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 保存</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;/html/body/div[1]/form/div[7]/button&#x27;</span>).click()</span><br><span class="line">    driver.switch_to.default_content()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">del_address</span>(<span class="params">driver, del_el</span>):</span><br><span class="line">    <span class="comment"># JS点击解决位置变化问题</span></span><br><span class="line">    driver.execute_script(<span class="string">&#x27;arguments[0].click()&#x27;</span>, del_el)</span><br><span class="line">    <span class="comment"># 确认删除</span></span><br><span class="line">    driver.find_element(By.XPATH, <span class="string">&#x27;//span[text()=&quot;确定&quot;]&#x27;</span>).click()</span><br><span class="line"></span><br><span class="line"><span class="meta">@pytest.fixture(<span class="params">scope=<span class="string">&quot;module&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">has_default_address</span>(<span class="params">user_driver</span>):</span><br><span class="line">    <span class="comment"># 创建测试数据</span></span><br><span class="line">    user_driver.get(<span class="string">&#x27;http://116.62.63.211/shop/useraddress/index.html&#x27;</span>)</span><br><span class="line">    new_address(user_driver, <span class="string">&#x27;AAA&#x27;</span>, <span class="string">&#x27;默认地址&#x27;</span>, <span class="string">&#x27;1231231231&#x27;</span>, <span class="string">&#x27;湖北省&#x27;</span>, <span class="string">&#x27;武汉市&#x27;</span>, <span class="string">&#x27;汉阳区&#x27;</span>, <span class="string">&#x27;我的地址&#x27;</span>, default=<span class="literal">True</span>)</span><br><span class="line">    new_address(user_driver, <span class="string">&#x27;BBB&#x27;</span>, <span class="string">&#x27;非默认地址&#x27;</span>, <span class="string">&#x27;1231231231&#x27;</span>, <span class="string">&#x27;湖北省&#x27;</span>, <span class="string">&#x27;武汉市&#x27;</span>, <span class="string">&#x27;汉阳区&#x27;</span>, <span class="string">&#x27;我的地址&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">yield</span> user_driver</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 清理数据</span></span><br><span class="line">    user_driver.get(<span class="string">&#x27;http://116.62.63.211/shop/useraddress/index.html&#x27;</span>)</span><br><span class="line">    del_el_list = user_driver.find_elements(By.XPATH, <span class="string">&#x27;//a[text()=&quot;删除&quot;]&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> del_el <span class="keyword">in</span> del_el_list:</span><br><span class="line">        del_address(user_driver, del_el)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-实现测试用例"><a href="#2-实现测试用例" class="headerlink" title="2. 实现测试用例"></a>2. 实现测试用例</h3><h4 id="场景A：有默认地址"><a href="#场景A：有默认地址" class="headerlink" title="场景A：有默认地址"></a>场景A：有默认地址</h4><ul>
+<li><p>前置：创建1默认地址+1个非默认地址  </p>
+<ul>
+<li>用例1：创建  </li>
+<li>用例2：编辑  </li>
+<li>用例3：删除</li>
+</ul>
+</li>
+<li><p>后置：删除全部地址</p>
+</li>
+</ul>
+<h4 id="1-iframe处理"><a href="#1-iframe处理" class="headerlink" title="1. iframe处理"></a>1. iframe处理</h4><p>原因：把另一个网页的内容，嵌入当前页面显示，但是元素不属于当前页面，无法定位</p>
+<p><strong>解决方案</strong>：  让selenium切换到另一个网页</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入iframe</span></span><br><span class="line"><span class="comment">#//*[@id=&quot;am-modal-m2wav&quot;]/div/div[2]/iframe</span></span><br><span class="line"><span class="comment">#//*[@id=&quot;am-modal-ljscr&quot;]/div/div[2]/iframe</span></span><br><span class="line">ifame = driver.find_element(By.XPATH,<span class="string">&#x27;//iframe[@src=&quot;http://116.62.63.211/shop/useraddress/saveinfo.html&quot;]&#x27;</span>)</span><br><span class="line">driver.switch_to.frame(ifame)</span><br></pre></td></tr></table></figure>
+
+<p>具体方法：</p>
+<ol>
+<li>定位到iframe元素、调用selenium切换到这个元素（进去）</li>
+<li>定位需要iframe中的元素 （定位）</li>
+<li>iframe中的元素定位完毕之后，切回到主页面（退出）</li>
+<li>定位主页面的元素 （恢复正常操作）</li>
+</ol>
+<h4 id="2-点击被拦截解决方案"><a href="#2-点击被拦截解决方案" class="headerlink" title="2. 点击被拦截解决方案"></a>2. 点击被拦截解决方案</h4><p>原因：元素被遮挡或元素位置移动</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用JS强制点击</span></span><br><span class="line">driver.execute_script(<span class="string">&#x27;arguments[0].click()&#x27;</span>, element)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-下拉选择处理"><a href="#3-下拉选择处理" class="headerlink" title="3. 下拉选择处理"></a>3. 下拉选择处理</h4><ul>
+<li>原生<code>&lt;select&gt;</code>：使用Selenium封装函数  </li>
+<li><code>div</code>实现的下拉：模拟用户操作（点击加载选项 → 点击选择选项）</li>
+</ul>
+<h1 id="六、Web自动化实战：POM设计模式深度封装流程（day30）"><a href="#六、Web自动化实战：POM设计模式深度封装流程（day30）" class="headerlink" title="六、Web自动化实战：POM设计模式深度封装流程（day30）"></a>六、Web自动化实战：POM设计模式深度封装流程（day30）</h1><h2 id="1-POM是什么"><a href="#1-POM是什么" class="headerlink" title="1. POM是什么"></a>1. POM是什么</h2><p><strong>Page Object Model</strong>  </p>
+<ul>
+<li>字面翻译：页面 对象 模型  </li>
+<li>本质内涵：把页面进行面向对象式封装</li>
+</ul>
+<h2 id="2-为什么使用POM"><a href="#2-为什么使用POM" class="headerlink" title="2. 为什么使用POM"></a>2. 为什么使用POM</h2><p>学习Python语言的不同阶段：  </p>
+<ol>
+<li><strong>脚本</strong>：简单，不可重用，适合代码量少，临时使用场合  </li>
+<li><strong>函数</strong>：基本封装，可以重用，适合代码适中，多次使用场合  </li>
+<li><strong>面向对象</strong>：深度封装，隐藏细节，适合代码规模大、关系复杂的场合</li>
+</ol>
+<p><strong>POM的价值</strong>：  </p>
+<ul>
+<li>将页面内容（元素、网页、文本）和交互（点击、输入）通过面向对象方式深度封装  </li>
+<li>便于代码复用，简化用法，隐藏细节  </li>
+<li>中大型UI测试项目必备基础技巧</li>
+</ul>
+<h2 id="3-怎么样使用POM"><a href="#3-怎么样使用POM" class="headerlink" title="3. 怎么样使用POM"></a>3. 怎么样使用POM</h2><h3 id="1-创建BasePage"><a href="#1-创建BasePage" class="headerlink" title="1. 创建BasePage"></a>1. 创建BasePage</h3><p>抽象类，不代表任何具体页面，包含大部分页面可能用到的通用成员：  </p>
+<ol>
+<li>保存<code>driver</code>对象：控制真正的浏览器  </li>
+<li>保存<code>wait</code>对象：实现显式等待  </li>
+<li>获取系统提示  </li>
+<li>通过JS进行强制点击  </li>
+<li>其他通用功能</li>
+</ol>
+<p><strong>注意</strong>：避免重复封装Selenium已有方法（如<code>find_element</code>）：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 反面典型 - 无需重复封装</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_element</span>(<span class="params">self, by, value</span>):  </span><br><span class="line">    <span class="keyword">return</span> self.driver.find_element(by, value)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建Page"><a href="#2-创建Page" class="headerlink" title="2. 创建Page"></a>2. 创建Page</h3><p>具体页面类，代表每个具体页面，包含：  </p>
+<ol>
+<li>该页面的独有元素内容和交互方式  </li>
+<li>为不同页面创建不同的类  </li>
+<li>在类中为不同操作创建方法  </li>
+<li>在类中为页面元素创建可复用元素</li>
+</ol>
+<h3 id="3-使用Page"><a href="#3-使用Page" class="headerlink" title="3. 使用Page"></a>3. 使用Page</h3><p>在测试用例中使用Page对象，而非直接使用Selenium：  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用例中使用示例</span></span><br><span class="line">login_page = LoginPage(driver)</span><br><span class="line">login_page.input_username(<span class="string">&quot;test_user&quot;</span>)</span><br><span class="line">login_page.input_password(<span class="string">&quot;pass123&quot;</span>)</span><br><span class="line">login_page.click_submit()</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-POM特点总结"><a href="#4-POM特点总结" class="headerlink" title="4. POM特点总结"></a>4. POM特点总结</h3><ol>
+<li><strong>面向对象抽象</strong>：  <ul>
+<li>相似页面可复用元素定位  </li>
+<li>大部分页面可复用交互逻辑</li>
+</ul>
+</li>
+<li><strong>灵活方法定义</strong>：  <ul>
+<li>自定义方法名称、参数、返回值  </li>
+<li>方法间自由调用  </li>
+<li>子类可重写同名方法</li>
+</ul>
+</li>
+<li><strong>深度封装细节</strong>：  <ul>
+<li>用例只需关心操作步骤，不关心实现细节  </li>
+<li>页面变化（元素&#x2F;交互变更）时用例无需修改</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><ol>
+<li>将登录页面进行POM封装，供fixture使用  </li>
+<li>将头像上传页面进行POM封装，供测试用例使用</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://sereincease.github.io">Sereincease</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://sereincease.github.io/2025/07/05/web%E8%87%AA%E5%8A%A8%E5%8C%96-%E7%94%B5%E5%95%86%E5%AE%9E%E6%88%98/">https://sereincease.github.io/2025/07/05/web%E8%87%AA%E5%8A%A8%E5%8C%96-%E7%94%B5%E5%95%86%E5%AE%9E%E6%88%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sereincease.github.io" target="_blank">Sereincease's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/07/13/%E9%9D%A2%E8%AF%95%E9%A2%98/" title="面试题"><img class="cover" src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">面试题</div></div></a></div><div class="next-post pull-right"><a href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础"><img class="cover" src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">web自动化基础</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-27/202201191302974%20-1--c8fc4e.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sereincease</div><div class="author-info__description">Sereincease的个人博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com//SereinCease"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Welcome to SereinCease's Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%9E%E6%88%98-%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%AE%9E%E7%8E%B0%EF%BC%88day28%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">四、Web自动化实战-电商项目个人中心用例设计和实现（day28）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E4%B8%8E%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.1.</span> <span class="toc-text">1. 需求分析与用例设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%9C%B0%E5%9D%80"><span class="toc-number">1.1.1.</span> <span class="toc-text">项目地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.1.2.</span> <span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E4%BE%8B%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.1.3.</span> <span class="toc-text">用例步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%BD%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">1.1.4.</span> <span class="toc-text">后置操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.2.</span> <span class="toc-text">2. 代码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81Web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%9E%E6%88%98-%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E5%A4%8D%E6%9D%82%E8%A1%A8%E5%8D%95%E5%85%83%E7%B4%A0%E8%87%AA%E5%8A%A8%E5%8C%96%E6%93%8D%E4%BD%9C%EF%BC%88day29%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">五、Web自动化实战-电商项目复杂表单元素自动化操作（day29）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%BC%95%E5%85%A5%E4%B8%93%E4%B8%9A%E6%B5%8B%E8%AF%95%E6%A1%86%E6%9E%B6%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">2.1.</span> <span class="toc-text">1. 引入专业测试框架目录结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%94%B6%E8%B4%A7%E5%9C%B0%E5%9D%80%E7%94%A8%E4%BE%8B%E8%AE%BE%E8%AE%A1"><span class="toc-number">2.2.</span> <span class="toc-text">2. 收货地址用例设计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%89%8D%E7%BD%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. 前置操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%94%A8%E4%BE%8B%E6%AD%A5%E9%AA%A4"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. 用例步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E4%BE%8B"><span class="toc-number">2.2.2.1.</span> <span class="toc-text">创建用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E7%94%A8%E4%BE%8B"><span class="toc-number">2.2.2.2.</span> <span class="toc-text">删除用例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%96%E8%BE%91%E7%94%A8%E4%BE%8B"><span class="toc-number">2.2.2.3.</span> <span class="toc-text">编辑用例</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%90%8E%E7%BD%AE%E6%93%8D%E4%BD%9C"><span class="toc-number">2.2.3.</span> <span class="toc-text">3. 后置操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%95%B4%E7%90%86%E5%89%8D%E5%90%8E%E7%BD%AE%E5%85%B3%E7%B3%BB"><span class="toc-number">2.2.4.</span> <span class="toc-text">4. 整理前后置关系</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%94%B6%E8%B4%A7%E5%9C%B0%E5%9D%80%E7%94%A8%E4%BE%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.3.</span> <span class="toc-text">3. 收货地址用例实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%AE%9E%E7%8E%B0fixture%EF%BC%88%E5%89%8D%E7%BD%AE%E3%80%81%E5%90%8E%E7%BD%AE%EF%BC%89"><span class="toc-number">2.3.1.</span> <span class="toc-text">1. 实现fixture（前置、后置）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%AE%9E%E7%8E%B0%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">2.3.2.</span> <span class="toc-text">2. 实现测试用例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%BA%E6%99%AFA%EF%BC%9A%E6%9C%89%E9%BB%98%E8%AE%A4%E5%9C%B0%E5%9D%80"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">场景A：有默认地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-iframe%E5%A4%84%E7%90%86"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">1. iframe处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E7%82%B9%E5%87%BB%E8%A2%AB%E6%8B%A6%E6%88%AA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">2. 点击被拦截解决方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E4%B8%8B%E6%8B%89%E9%80%89%E6%8B%A9%E5%A4%84%E7%90%86"><span class="toc-number">2.3.2.4.</span> <span class="toc-text">3. 下拉选择处理</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81Web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%AE%9E%E6%88%98%EF%BC%9APOM%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%B7%B1%E5%BA%A6%E5%B0%81%E8%A3%85%E6%B5%81%E7%A8%8B%EF%BC%88day30%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">六、Web自动化实战：POM设计模式深度封装流程（day30）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-POM%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">3.1.</span> <span class="toc-text">1. POM是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8POM"><span class="toc-number">3.2.</span> <span class="toc-text">2. 为什么使用POM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%80%8E%E4%B9%88%E6%A0%B7%E4%BD%BF%E7%94%A8POM"><span class="toc-number">3.3.</span> <span class="toc-text">3. 怎么样使用POM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%9B%E5%BB%BABasePage"><span class="toc-number">3.3.1.</span> <span class="toc-text">1. 创建BasePage</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%9B%E5%BB%BAPage"><span class="toc-number">3.3.2.</span> <span class="toc-text">2. 创建Page</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BD%BF%E7%94%A8Page"><span class="toc-number">3.3.3.</span> <span class="toc-text">3. 使用Page</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-POM%E7%89%B9%E7%82%B9%E6%80%BB%E7%BB%93"><span class="toc-number">3.3.4.</span> <span class="toc-text">4. POM特点总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%83%E4%B9%A0"><span class="toc-number">3.4.</span> <span class="toc-text">练习</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/07/13/%E9%9D%A2%E8%AF%95%E9%A2%98/" title="面试题"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="面试题"/></a><div class="content"><a class="title" href="/2025/07/13/%E9%9D%A2%E8%AF%95%E9%A2%98/" title="面试题">面试题</a><time datetime="2025-07-13T12:26:38.000Z" title="发表于 2025-07-13 20:26:38">2025-07-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/07/05/web%E8%87%AA%E5%8A%A8%E5%8C%96-%E7%94%B5%E5%95%86%E5%AE%9E%E6%88%98/" title="web自动化-电商实战"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web自动化-电商实战"/></a><div class="content"><a class="title" href="/2025/07/05/web%E8%87%AA%E5%8A%A8%E5%8C%96-%E7%94%B5%E5%95%86%E5%AE%9E%E6%88%98/" title="web自动化-电商实战">web自动化-电商实战</a><time datetime="2025-07-05T11:29:57.000Z" title="发表于 2025-07-05 19:29:57">2025-07-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="web自动化基础"/></a><div class="content"><a class="title" href="/2025/06/30/web%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80/" title="web自动化基础">web自动化基础</a><time datetime="2025-06-30T10:15:30.000Z" title="发表于 2025-06-30 18:15:30">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="requests框架笔记"/></a><div class="content"><a class="title" href="/2025/06/30/requests%E6%A1%86%E6%9E%B6%E7%AC%94%E8%AE%B0/" title="requests框架笔记">requests框架笔记</a><time datetime="2025-06-30T04:45:23.000Z" title="发表于 2025-06-30 12:45:23">2025-06-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest"><img src="https://cdn.jsdelivr.net/gh/SereinCease/images/blog/2024-01-28/202201191305988-30aa3e.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="接口自动化基础之pytest"/></a><div class="content"><a class="title" href="/2025/06/29/%E6%8E%A5%E5%8F%A3%E8%87%AA%E5%8A%A8%E5%8C%96%E5%9F%BA%E7%A1%80%E4%B9%8Bpytest/" title="接口自动化基础之pytest">接口自动化基础之pytest</a><time datetime="2025-06-29T03:47:00.000Z" title="发表于 2025-06-29 11:47:00">2025-06-29</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Sereincease</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">love学习</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(()=>{
+  const getGiscusTheme = theme => {
+    return theme === 'dark' ? 'dark' : 'light'
+  }
+
+  const loadGiscus = () => {
+    const config = Object.assign({
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'SereinCease/SereinCease.github.io',
+      'data-repo-id': 'R_kgDOGg9uaw',
+      'data-category-id': 'DIC_kwDOGg9ua84Ccvjf',
+      'data-mapping': 'pathname',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true
+    },null)
+
+    const ele = document.createElement('script')
+    for (let key in config) {
+      ele.setAttribute(key, config[key])
+    }
+    document.getElementById('giscus-wrap').appendChild(ele)
+  }
+
+  const changeGiscusTheme = theme => {
+    const sendMessage = message => {
+      const iframe = document.querySelector('iframe.giscus-frame')
+      if (!iframe) return
+      iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app')
+    }
+
+    sendMessage({
+      setConfig: {
+        theme: getGiscusTheme(theme)
+      }
+    });
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if ('Giscus' === 'Giscus' || !true) {
+    if (true) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment= loadGiscus
+  }
+})()</script></div><script src="https://cdn.jsdelivr.net/gh/SereinCease/SereinCease.github.io@main/js/sakura.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
